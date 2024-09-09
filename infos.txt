@@ -1,0 +1,74 @@
+If you don’t need to store specific information about food (like menu items), you can simplify the models for your online food delivery website, Ekhana. Here’s a streamlined version of the models that focuses more on users, restaurants, orders, and deliveries without the food details:
+
+1. User
+Fields:
+userId: Unique identifier for the user.
+name: Name of the user.
+email: Email address (unique).
+password: Hashed password.
+phoneNumber: Contact number.
+address: Array of addresses for delivery.
+role: Enum (e.g., 'customer', 'admin', 'delivery_person').
+createdAt: Timestamp of account creation.
+Relationships:
+One-to-Many with Order (a user can place multiple orders).
+2. Restaurant
+Fields:
+restaurantId: Unique identifier for the restaurant.
+name: Name of the restaurant.
+location: Address or coordinates of the restaurant.
+ownerId: Reference to the owner (User).
+rating: Average customer rating.
+createdAt: Timestamp of restaurant creation.
+Relationships:
+One-to-Many with Order (a restaurant can have multiple orders).
+3. Order
+Fields:
+orderId: Unique identifier for the order.
+userId: Reference to the User who placed the order.
+restaurantId: Reference to the Restaurant from which the order is placed.
+totalPrice: Calculated total price (you may handle pricing in a separate way).
+status: Enum (e.g., 'pending', 'preparing', 'delivered', 'cancelled').
+paymentMethod: Enum (e.g., 'credit card', 'cash on delivery').
+createdAt: Timestamp of order placement.
+deliveryAddress: Address for order delivery.
+Relationships:
+Many-to-One with User (each order is placed by one user).
+Many-to-One with Restaurant (each order is associated with one restaurant).
+One-to-Many with DeliveryPerson (optional, depending on your structure).
+4. DeliveryPerson
+Fields:
+deliveryPersonId: Unique identifier for the delivery person.
+name: Name of the delivery person.
+phoneNumber: Contact number.
+status: Enum (e.g., 'available', 'on delivery', 'off duty').
+currentOrderId: Reference to the current Order being delivered (optional).
+Relationships:
+One-to-Many with Order (a delivery person can deliver multiple orders).
+5. Review (Optional)
+Fields:
+reviewId: Unique identifier for the review.
+userId: Reference to the User who wrote the review.
+restaurantId: Reference to the Restaurant being reviewed.
+rating: Numeric rating.
+comment: Review text.
+createdAt: Timestamp of review submission.
+Relationships:
+Many-to-One with User (each review is written by one user).
+Many-to-One with Restaurant (each review is for one restaurant).
+Relationships Overview:
+User → Order: One-to-Many (A user can place multiple orders).
+Restaurant → Order: One-to-Many (A restaurant can have multiple orders).
+Order → DeliveryPerson: Many-to-One (An order can be assigned to one delivery person).
+User → Review: One-to-Many (A user can write multiple reviews).
+Restaurant → Review: One-to-Many (A restaurant can have multiple reviews).
+This setup allows you to manage users, restaurants, orders, and deliveries effectively without focusing on the food items themselves. You can also modify these models further based on specific features or functionalities you want to implement in your application.
+
+
+elationships Overview with FoodCategory:
+FoodCategory → Restaurant: One-to-Many (A food category can have multiple restaurants).
+Restaurant → FoodCategory: Many-to-One (A restaurant belongs to one food category).
+Example Use Case:
+A restaurant could be categorized under "Italian," "Chinese," etc., using the FoodCategory model.
+When a user views a restaurant, they can also see the type of food it specializes in, based on its FoodCategory.
+By adding the FoodCategory model, you enrich your system's ability to classify and filter restaurants based on their cuisine or food type, enhancing the user experience on your platform.
