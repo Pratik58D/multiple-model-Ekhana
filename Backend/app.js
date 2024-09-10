@@ -17,4 +17,5 @@ const registerUser = require("./src/routes/userRoute")
 app.use("/api/user" , registerUser)
 
 
+
 app.listen(PORT,()=>console.log(`server started ${PORT}`))

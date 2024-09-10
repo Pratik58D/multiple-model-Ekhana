@@ -9,9 +9,6 @@ const profileSchema = new schema({
   full_name: {
     type: String,
   },
-  phone: {
-    type: String,
-  },
   address: [{
     type: String,
 }],
