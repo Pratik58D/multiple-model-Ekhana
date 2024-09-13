@@ -1,39 +1,57 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
-    userId: {
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  restaurantId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Restaurant",
+    required: true,
+  },
+  items: [
+    {
+      foodItemId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "FoodItem",
         required: true,
-    },
-    restaurantId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Restaurant',
-        required: true,
-    },
-    totalPrice: {
+      },
+      quantity: {
         type: Number,
         required: true,
-    },
-    status: {
-        type: String,
-        enum: ['pending', 'preparing', 'delivered', 'cancelled'],
-        default: 'pending',
-    },
-    paymentMethod: {
-        type: String,
-        enum: ['credit card', 'cash on delivery'],
+        default: 1,
+      },
+      price: {
+        type: Number,
         required: true,
+      },
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    deliveryAddress: {
-        type: String,
-        required: true,
-    }
+  ],
+  totalPrice: {
+    type: Number,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ["pending", "preparing", "delivered", "cancelled"],
+    default: "pending",
+  },
+  paymentMethod: {
+    type: String,
+    enum: ["credit card", "cash on delivery"],
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  deliveryAddress: {
+    type: String,
+    required: true,
+  },
 });
 
-const Order = mongoose.model('Order', orderSchema);
+const Order = mongoose.model("Order", orderSchema);
 module.exports = Order;

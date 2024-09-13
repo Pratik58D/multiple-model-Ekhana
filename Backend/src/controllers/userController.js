@@ -6,12 +6,14 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const registerUser = async (req, res) => {
-  const { email, name, password, role } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ msg: "please enter the email and password" });
+  const { email, name, password, role,phone_number } = req.body;
+  if (!email || !password || !phone_number) {
+    return res.status(400).json({ msg: "please enter the email, password and phone number" });
   }
   try {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({
+      $or:[{ email: email },{phone_number: phone_number}]
+      });
     if (user) {
       return res.status(400).json({ msg: "user already exits" });
     }
@@ -20,6 +22,7 @@ const registerUser = async (req, res) => {
       name,
       password,
       role,
+      phone_number
     });
 
     const newProfile = new Profile({
@@ -41,13 +44,16 @@ const registerUser = async (req, res) => {
 
 //controller for user login
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  // 'emailOrPhone' is what the user enters (either email or phone number)
+  const { emailOrPhone, password } = req.body;
   try {
-    let user = await User.findOne({ email });
+    // Check if the user exists by email or phone number
+    let user = await User.findOne({
+      $or:[{email:emailOrPhone},{phone_number:emailOrPhone}]  });
     if (!user) {
-      return res.status(400).json({ msg: "email doesnot Found" });
-    }
-
+      return res.status(400).json({ msg: "email or phone doesnot Found" });
+    };
+       // Compare the entered password with the stored password
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {

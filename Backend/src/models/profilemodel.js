@@ -9,9 +9,9 @@ const profileSchema = new schema({
   full_name: {
     type: String,
   },
-  address: [{
+  address: {
     type: String,
-}],
+},
   profilePic: {
     type: String,
     required: false,

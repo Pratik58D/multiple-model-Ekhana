@@ -17,6 +17,10 @@ const deliveryPersonSchema = new mongoose.Schema({
     currentOrderId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order',
+    },
+    completedOrders: {
+        type: Number,
+        default: 0,
     }
 });
 
