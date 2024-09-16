@@ -35,7 +35,7 @@ app.use("/api/foodCategory", foodCategoryRoute);
 
 //router for foodCategory
 const foodItemRoute = require("./src/routes/FooditemRoute");
-app.use("/api/fooditems/", foodItemRoute);
+app.use("/api/fooditems", foodItemRoute);
 
 
 app.listen(PORT,()=>console.log(`server started ${PORT}`))

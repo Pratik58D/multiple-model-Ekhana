@@ -4,6 +4,7 @@ const foodItemSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        unique: true,
     },
     description: {
         type: String,
@@ -16,7 +17,7 @@ const foodItemSchema = new mongoose.Schema({
     restaurantId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Restaurant',
-        required: true,
+        required: false,
     },
     foodCategoryId: {
         type: mongoose.Schema.Types.ObjectId,
